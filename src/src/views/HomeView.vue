@@ -13,7 +13,7 @@
                 :span="6">
           <el-card :body-style="{ padding: 0 }" shadow="hover">
             <img src="@/assets/art_bg_1.jpg" alt="image">
-            <s-link :to="la.to">
+            <s-link :to="`/articles/${la.id}`">
               <h3>{{ la.title }}</h3>
             </s-link>
           </el-card>
@@ -33,7 +33,7 @@
         <el-carousel-item v-for="ca in carousel"
                           :name="ca.name"
                           :key="ca.id">
-          <img :src="ca.url">
+          <img :src="ca.url" :alt="ca.name">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -56,7 +56,7 @@ import Life from '@/assets/life.md'
 type Article = {
   id: string
   title: string,
-  to: string
+  // to: string
 }
 
 type Carousel = {
@@ -80,12 +80,12 @@ export default Vue.extend({
   },
   created() {
     this.latestArticles = [
-      { id: 'abcdef', title: 'hello, blog', to: '/articles/abcdef' },
-      { id: '12345', title: 'hello, blog', to: '/articles/12345' },
-      { id: '23456', title: 'hello, blog', to: '/articles/23456' },
-      { id: '34567', title: 'hello, blog', to: '/articles/34567' },
-      { id: 'abcdefg', title: 'hello, blog', to: '/articles/abcdefg' },
-      { id: 'abcdefg', title: 'hello, blog', to: '/articles/abcdefg' },
+      { id: 'abcdef', title: 'hello, blog' },
+      { id: '12345', title: 'hello, blog' },
+      { id: '23456', title: 'hello, blog' },
+      { id: '34567', title: 'hello, blog' },
+      { id: 'abcdefg', title: 'hello, blog' },
+      { id: 'abcdefg', title: 'hello, blog' },
     ]
 
     this.carousel = [
