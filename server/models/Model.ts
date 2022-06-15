@@ -1,14 +1,14 @@
 import { Collection, MongoClient } from 'mongodb'
-import { DATABASE } from '../config'
+import config from '../config/mongodb.config'
 
 class Model<T> {
   private db: Collection<any> | undefined
 
   constructor(collectionName: string) {
-    MongoClient.connect(DATABASE.url,
+    MongoClient.connect(config.url,
         (err, db) => {
           if (err) throw err
-          this.db = db?.db(DATABASE.database).collection(collectionName)
+          this.db = db?.db(config.database).collection(collectionName)
         })
   }
 
