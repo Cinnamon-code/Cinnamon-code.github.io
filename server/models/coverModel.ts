@@ -1,6 +1,6 @@
-import Model from './Model'
+import Model from './model'
 
-type Cover = {
+export type Cover = {
   _id?: string,
   artId: string,
   url: string

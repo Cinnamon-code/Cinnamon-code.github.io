@@ -12,17 +12,17 @@ class Model<T> {
         })
   }
 
-  async insert(contents: T[]) {
+  async insert(contents: T[]): Promise<boolean> {
     // console.log(contents)
     const count = await this.db?.insertMany(contents).then(r => r.insertedCount)
     return !!count
   }
 
-  async find(condition: object = {}, projection: object = {}) {
-    return await this.db?.find(condition, { projection }).toArray()
+  async find(condition: object = {}, projection: object = {}): Promise<Partial<T>[]> {
+    return await this.db?.find(condition, { projection }).toArray() as Partial<T>[]
   }
 
-  async update(condition: Partial<T> = {}, updates: object = { $set: {} }) {
+  async update(condition: Partial<T> = {}, updates: object = { $set: {} }): Promise<boolean> {
     const count = await this.db?.updateMany(condition, updates).then(r => r.modifiedCount)
     return !!count
   }

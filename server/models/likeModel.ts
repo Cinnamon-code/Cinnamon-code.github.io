@@ -1,6 +1,6 @@
-import Model from './Model'
+import Model from './model'
 
-type Like = {
+export type Like = {
   _id?: string,
   userId: string,
   artId: string,

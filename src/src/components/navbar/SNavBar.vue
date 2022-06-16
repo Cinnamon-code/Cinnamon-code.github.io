@@ -10,10 +10,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "SNavBar"
-}
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'SNavBar',
+})
 </script>
 
 <style lang="scss" scoped>
@@ -55,7 +57,7 @@ export default {
   align-items: center;
   float: right;
 
-  & > .s-navbar-item {
+  .s-navbar-item {
     padding-left: 60px;
   }
 }

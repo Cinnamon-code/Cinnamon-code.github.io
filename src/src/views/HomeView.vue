@@ -5,12 +5,10 @@
     </div>
     <h1 class="title" @click="$router.push('/articles')">Articles</h1>
     <div class="arts">
-      <el-row v-for="i in Math.floor(latestArticles.length / 4)"
-              :gutter="25"
-              :key="i">
-        <el-col v-for="la in latestArticles.slice((i - 1) * 4, i * 4)"
-                :key="la.id"
-                :span="6">
+      <el-row :gutter="25"
+              v-for="i in Math.floor(latestArticles.length / 4)" :key="i">
+        <el-col :span="6"
+                v-for="la in latestArticles.slice((i - 1) * 4, i * 4)" :key="la.id">
           <el-card :body-style="{ padding: 0 }" shadow="hover">
             <img src="@/assets/art_bg_1.jpg" alt="image">
             <s-link :to="`/articles/${la.id}`">
@@ -20,30 +18,27 @@
         </el-col>
       </el-row>
     </div>
-    <h1 class="title" @click="$router.push('/gallery')">Life</h1>
+    <h1 class="title" @click="$router.push('/life')">Life</h1>
     <div class="life">
       <div class="markdown-body">
         <Life></Life>
       </div>
-      <el-carousel height="500px"
-                   :interval="2000"
-                   autoplay
-                   loop
-                   indicator-position="none">
-        <el-carousel-item v-for="ca in carousel"
-                          :name="ca.name"
-                          :key="ca.id">
-          <img :src="ca.url" :alt="ca.name">
-        </el-carousel-item>
-      </el-carousel>
+      <el-row :gutter="0">
+        <el-col :xl="18" :lg="17" :sm="15" :xs="24">
+          <el-carousel height="450px" :interval="3000" autoplay loop indicator-position="none">
+            <el-carousel-item v-for="ca in carousel" :name="ca.name" :key="ca.id">
+              <img :src="ca.url" :alt="ca.name">
+            </el-carousel-item>
+          </el-carousel>
+        </el-col>
+        <el-col :xl="6" :lg="7" :sm="9" :xs="24">
+          <s-home-form :is-login="isLogin"
+                       @switch="isLogin = isLogin === 0 ? 1 : 0"
+                       @login="isLogin = 2" @logout="isLogin = 0"></s-home-form>
+        </el-col>
+      </el-row>
     </div>
-    <footer class="footer">
-      <el-divider>🍞</el-divider>
-      <h2>肉桂面包</h2>
-      <p>关于一个爱吃肉桂面包男孩的网站。</p>
-      <p>你可以从这个博客获取一些有用的，没用的，或者不管什么东西。希望能够帮到你。你也可以向我的邮箱留言，可以提建议或者寻求帮助。</p>
-      <strong>邮箱：<a href="mailto:shencong2001@live.cn">shencong2001@live.cn</a></strong>
-    </footer>
+
   </div>
 </template>
 
@@ -51,12 +46,11 @@
 import Vue from 'vue'
 import SLink from '@/components/SLink.vue'
 import Life from '@/assets/life.md'
-// import README from '@/assets/README.md'
+import SHomeForm from '@/components/homeView/SHomeForm.vue'
 
 type Article = {
   id: string
   title: string,
-  // to: string
 }
 
 type Carousel = {
@@ -71,13 +65,11 @@ export default Vue.extend({
     return {
       latestArticles: [] as Article[],
       carousel: [] as Carousel[],
+      isLogin: 0, // 0 login, 1 register, 2 has logged in
     }
   },
-  components: {
-    SLink,
-    Life,
-    // README,
-  },
+  methods: {},
+  components: { SHomeForm, SLink, Life },
   created() {
     this.latestArticles = [
       { id: 'abcdef', title: 'hello, blog' },
@@ -88,12 +80,7 @@ export default Vue.extend({
       { id: 'abcdefg', title: 'hello, blog' },
     ]
 
-    this.carousel = [
-      { id: '12345', name: '12345', url: require('@/assets/art_bg_1.jpg') },
-      { id: '23456', name: '12345', url: require('@/assets/art_bg_1.jpg') },
-      { id: '34567', name: '12345', url: require('@/assets/art_bg_1.jpg') },
-      { id: '45678', name: '12345', url: require('@/assets/art_bg_1.jpg') },
-    ]
+    this.carousel = [{ id: '12345', name: '12345', url: require('@/assets/home_bg.png') }]
   },
 })
 </script>
@@ -130,37 +117,30 @@ export default Vue.extend({
   }
 }
 
-.markdown-body {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  padding: 10px 40px;
-  margin-bottom: 30px;
-}
-
-.el-carousel {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-
-}
-
-.el-carousel__item {
-  text-align: center;
-
-  & img {
-    width: 100%;
-  }
-}
-
-.footer {
-  height: 220px;
-  margin-top: 80px;
-  line-height: 1.5em;
-
-  & a {
-    text-decoration: none;
-    color: inherit;
-    transition: color .3s;
+.life {
+  .markdown-body {
+    //box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    padding: 10px 40px;
+    margin-bottom: 30px;
+    border: 1px solid #EAEEF5;
+    transition: box-shadow .3s;
 
     &:hover {
-      color: #002fa7;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .el-carousel {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .el-carousel__item {
+    text-align: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      //object-fit: none;
     }
   }
 }

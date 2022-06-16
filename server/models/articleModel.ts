@@ -1,4 +1,4 @@
-import Model from './Model'
+import Model from './model'
 
 // article表
 export type Article = {

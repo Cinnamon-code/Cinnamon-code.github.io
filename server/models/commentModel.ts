@@ -1,6 +1,6 @@
-import Model from './Model'
+import Model from './model'
 
-type Comment = {
+export type Comment = {
   _id?: string
   userId: string,
   artId: string,

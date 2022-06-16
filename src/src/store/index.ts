@@ -7,8 +7,12 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-const state = {
+export type State = {
+  [key: string]: any
+}
 
+const state: State = {
+  userInfo: {},
 }
 
 export default new Vuex.Store({
@@ -16,5 +20,5 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
-  modules
+  modules,
 })

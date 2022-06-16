@@ -1,11 +1,11 @@
 import articleModel, { Article } from '../models/articleModel'
 
 class ArticleService {
-  async submit(contents: Article[]) {
-    return await articleModel.insert(contents)
+  async submit(contents: Article): Promise<boolean> {
+    return await articleModel.insert([contents])
   }
 
-  async getAll() {
+  async getAll(): Promise<Partial<Article>[]> {
     return await articleModel.find()
   }
 }

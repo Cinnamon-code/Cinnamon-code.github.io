@@ -1,6 +1,6 @@
-import Model from './Model'
+import Model from './model'
 
-type ArtImg = {
+export type ArtImg = {
   _id?: string,
   artId: string,
   url: string

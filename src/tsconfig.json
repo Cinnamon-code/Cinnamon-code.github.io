@@ -19,9 +19,6 @@
     "paths": {
       "@/*": [
         "src/*"
-      ],
-      "*": [
-        "./typings"
       ]
     },
     "lib": [
@@ -37,7 +34,8 @@
     "src/**/*.vue",
     "src/**/*.md",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

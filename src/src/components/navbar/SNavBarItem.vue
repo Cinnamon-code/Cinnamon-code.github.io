@@ -10,16 +10,17 @@
   </div>
 </template>
 
-<script>
-import SLink from '@/components/SLink'
+<script lang="ts">
+import Vue from 'vue'
+import SLink from '@/components/SLink.vue'
 
-export default {
+export default Vue.extend({
   name: "SNavBarItem",
   components: {SLink},
   props: {
     to: {
       type: String,
-      require: true
+      required: true
     }
   },
   methods: {},
@@ -28,7 +29,7 @@ export default {
       return `/${this.$route.path.split('/')[1]}`
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

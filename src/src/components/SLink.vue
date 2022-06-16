@@ -6,28 +6,30 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "SLink",
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'SLink',
   methods: {
-    handleClick(e) {
+    handleClick(e: MouseEvent) {
       e.preventDefault()
       this.$router.push(this.to)
-    }
+    },
   },
   props: {
     to: {
       type: String,
-      required: true
+      required: true,
     },
     linkStyle: {
       type: Object,
       default() {
         return {}
-      }
-    }
-  }
-}
+      },
+    },
+  },
+})
 </script>
 
 <style lang="scss" scoped>
