@@ -39,7 +39,7 @@ export default Vue.extend({
   transition: color .3s;
 
   &:hover {
-    color: #002fa7;
+    color: #156554;
   }
 }
 </style>

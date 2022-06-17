@@ -91,16 +91,22 @@ export default Vue.extend({
             url: '/user/login',
             data: { ...this.loginModel, password: md5(md5(md5(this.loginModel.password))) },
           }).then(({ data }) => {
-            this.$message({ type: data.status ? 'success' : 'error', message: data.msg })
             if (data.status) { // 登录成功
               // 将用户信息保存
               // userInfo { username: string, email: string, root: boolean, isLogin: boolean }
               const userInfo = { ...data.userInfo, isLogin: true }
+              this.$notify({
+                type: 'success', title: '登录成功', message: `欢迎${ userInfo.username }`,
+                onClose: () => { location.reload() }, duration: 1200, position: 'top-left',
+              })
               localStorage.setItem('cinnamon-token', data.token)
               localStorage.setItem('cinnamon-info', JSON.stringify(userInfo))
               // this.$store.commit(mutationTypes.LOGIN, userInfo)
-              setTimeout(() => location.reload(), 1000)
-            } else (this.$refs.pwdInput as FormItem).resetField()
+              // setTimeout(() => location.reload(), 1000)
+            } else {
+              (this.$refs.pwdInput as FormItem).resetField()
+              this.$message({ type: 'error', message: data.msg })
+            }
           })
         }
       })
@@ -137,7 +143,9 @@ export default Vue.extend({
   },
   watch: {
     isLogin() {
-      (this.$refs.form as Form).resetFields()
+      const form: Form = this.$refs.form as Form
+      form.resetFields()
+      this.$nextTick(() => form.clearValidate())
     },
   },
   created() {
@@ -157,7 +165,7 @@ export default Vue.extend({
 
   .header {
     font-weight: 500;
-    color: #002fa7;
+    color: #156554;
   }
 }
 

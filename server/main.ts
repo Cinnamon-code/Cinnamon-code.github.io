@@ -23,6 +23,12 @@ app.use(expressjwt({
 }).unless({ path: [/^\/api\/user\/.*/] }))
 
 app.use('/api', router)
+app.get('/api/jwt', (req, res) => {
+  res.send({
+    code: 200,
+    msg: 'not expired'
+  })
+})
 
 // 若无匹配业务路由，则匹配 404 路由，代表访问路径不存在
 app.use(notFound)

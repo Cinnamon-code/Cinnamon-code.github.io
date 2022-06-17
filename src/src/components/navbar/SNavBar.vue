@@ -30,12 +30,6 @@ export default Vue.extend({
   clear: both;
 }
 
-.s-navbar {
-  height: 49px;
-  //border: 1px solid black;
-  line-height: 49px;
-}
-
 .s-navbar-title {
   float: left;
   height: inherit;
@@ -43,7 +37,6 @@ export default Vue.extend({
   & * {
     padding: 0;
     margin: 0;
-    height: inherit;
   }
 
   &:hover {
@@ -59,6 +52,7 @@ export default Vue.extend({
 
   .s-navbar-item {
     padding-left: 60px;
+    line-height: 2em;
   }
 }
 </style>

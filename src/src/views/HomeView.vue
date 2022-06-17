@@ -78,6 +78,8 @@ export default Vue.extend({
       { id: '34567', title: 'hello, blog' },
       { id: 'abcdefg', title: 'hello, blog' },
       { id: 'abcdefg', title: 'hello, blog' },
+      { id: 'abcdef', title: 'hello, blog' },
+      { id: '12345', title: 'hello, blog' },
     ]
 
     this.carousel = [{ id: '12345', name: '12345', url: require('@/assets/home_bg.png') }]
@@ -119,15 +121,7 @@ export default Vue.extend({
 
 .life {
   .markdown-body {
-    //box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-    padding: 10px 40px;
     margin-bottom: 30px;
-    border: 1px solid #EAEEF5;
-    transition: box-shadow .3s;
-
-    &:hover {
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    }
   }
 
   .el-carousel {
@@ -135,12 +129,11 @@ export default Vue.extend({
   }
 
   .el-carousel__item {
-    text-align: center;
+    display: flex;
+    justify-content: center;
 
     img {
-      width: 100%;
-      height: 100%;
-      //object-fit: none;
+      flex: 1;
     }
   }
 }
