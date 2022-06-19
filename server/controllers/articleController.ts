@@ -23,6 +23,30 @@ class ArticleController {
       articles: results,
     })
   }
+
+  async getLatest(req: Request, res: Response) {
+    const results = await articleService.getLatest()
+    res.send({
+      code: 200,
+      articles: results,
+    })
+  }
+
+  async get(req: Request, res: Response) {
+    const { _id } = req.params
+    const result = await articleService.get(_id).then(res => res.length > 0 ? res[0] : null)
+    if (result) res.send({
+      code: 200,
+      status: true,
+      msg: '文章获取成功。',
+      art: result,
+    })
+    else res.send({
+      code: 500,
+      status: false,
+      msg: '文章不存在，获取失败。',
+    })
+  }
 }
 
 export default new ArticleController()

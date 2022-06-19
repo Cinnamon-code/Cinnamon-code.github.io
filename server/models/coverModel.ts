@@ -3,6 +3,7 @@ import Model from './model'
 export type Cover = {
   _id?: string,
   artId: string,
+  name: string,
   url: string
 }
 

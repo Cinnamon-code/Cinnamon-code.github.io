@@ -1,5 +1,6 @@
-import { Collection, MongoClient } from 'mongodb'
+import { Collection, MongoClient, Sort } from 'mongodb'
 import config from '../config/mongodb.config'
+import { ObjectID } from 'bson'
 
 class Model<T> {
   private db: Collection<any> | undefined
@@ -12,17 +13,21 @@ class Model<T> {
         })
   }
 
-  async insert(contents: T[]): Promise<boolean> {
+  async insert(contents: T[]): Promise<{ [key: string]: ObjectID } | undefined> {
     // console.log(contents)
-    const count = await this.db?.insertMany(contents).then(r => r.insertedCount)
-    return !!count
+    return await this.db?.insertMany(contents).then(r => r.insertedIds)
   }
 
-  async find(condition: object = {}, projection: object = {}): Promise<Partial<T>[]> {
+  async find(condition: Partial<T> = {}, projection: Partial<Record<keyof T, 0 | 1>> = {}): Promise<Partial<T>[]> {
     return await this.db?.find(condition, { projection }).toArray() as Partial<T>[]
   }
 
-  async update(condition: Partial<T> = {}, updates: object = { $set: {} }): Promise<boolean> {
+  async findTopN(condition: Partial<T> = {}, projection: Partial<Record<keyof T, 0 | 1>> = {},
+                 sort: Partial<Record<keyof T, 1 | -1>> = {}, limit: number): Promise<Partial<T>[]> {
+    return await this.db?.find(condition, { projection }).sort(sort as Sort).limit(limit).toArray() as Partial<T>[]
+  }
+
+  async update(condition: Partial<T> = {}, updates: { $set: Partial<T> } = { $set: {} }): Promise<boolean> {
     const count = await this.db?.updateMany(condition, updates).then(r => r.modifiedCount)
     return !!count
   }

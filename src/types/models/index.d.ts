@@ -1,8 +1,4 @@
-import Model from './model'
-import { ObjectId } from 'bson'
-
-// article表
-export type Article = {
+export declare type Article = {
   _id?: string | ObjectId
   title: string,
   coverUrl: string,
@@ -17,8 +13,7 @@ export type Article = {
   deleted: boolean
 }
 
-class ArticleModel extends Model<Article> {
-  constructor() {super('article')}
+export declare type Carousel = {
+  id: string,
+  url: string,
 }
-
-export default new ArticleModel()

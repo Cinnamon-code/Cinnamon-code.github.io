@@ -6,7 +6,7 @@ class UserService {
   }
 
   async register(userInfo: User): Promise<boolean> {
-    return await userModel.insert([userInfo])
+    return !!await userModel.insert([userInfo])
   }
 
   async checkUsername(username: string): Promise<boolean> {

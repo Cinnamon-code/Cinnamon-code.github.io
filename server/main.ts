@@ -20,13 +20,13 @@ export const secretKey = md5('shencong_cinnamon-code_blog')
 app.use(expressjwt({
   secret: secretKey,
   algorithms: ['HS256'],
-}).unless({ path: [/^\/api\/user\/.*/] }))
+}).unless({ path: [/^\/api\/user\/.*/, /^\/api\/article\/(?!like|comment|submit).*/] }))
 
 app.use('/api', router)
 app.get('/api/jwt', (req, res) => {
   res.send({
     code: 200,
-    msg: 'not expired'
+    msg: 'not expired',
   })
 })
 

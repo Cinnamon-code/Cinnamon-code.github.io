@@ -10,20 +10,11 @@
       </s-nav-bar-item>
     </s-nav-bar>
     <!--    router-view-->
-    <transition name="fade">
-      <!--      <keep-alive>-->
+    <!--    <transition name="fade">-->
+    <keep-alive>
       <router-view></router-view>
-      <!--      </keep-alive>-->
-    </transition>
-    <!--    navbar-->
-    <!--    <s-nav-bar class="navbar navbar-bottom">-->
-    <!--      <template v-slot:title>-->
-    <!--        <h2>肉桂面包</h2>-->
-    <!--      </template>-->
-    <!--      <s-nav-bar-item v-for="link in realLinks" :to="link.to" :key="link.to">-->
-    <!--        {{ link.name }}-->
-    <!--      </s-nav-bar-item>-->
-    <!--    </s-nav-bar>-->
+    </keep-alive>
+    <!--    </transition>-->
     <!--    footer-->
     <footer class="footer">
       <h1>End</h1>
@@ -105,22 +96,25 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-#app {
-  padding: 140px 80px 0;
+body {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #303133;
 }
 
-.fade-enter, .fade-leave-to {
-  transform: translateY(30px);
-  opacity: 0;
+#app {
+  padding: 140px 80px 0;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: all .5s ease;
-}
+//.fade-enter, .fade-leave-to {
+//  transform: translateY(30px);
+//  opacity: 0;
+//}
+//
+//.fade-enter-active, .fade-leave-active {
+//  transition: all 2s ease;
+//}
 
 .navbar-top {
   position: fixed;
