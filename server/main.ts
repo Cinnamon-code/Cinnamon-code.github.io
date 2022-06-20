@@ -11,10 +11,7 @@ app.use(express.static(path.join(__dirname, './public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use(cors({
-  origin: '*',
-  methods: ['get', 'post', 'put', 'delete'],
-}))
+app.use(cors())
 
 export const secretKey = md5('shencong_cinnamon-code_blog')
 app.use(expressjwt({
