@@ -12,7 +12,7 @@ const app = express()
 
 const httpsOptions = {
   key: fs.readFileSync(path.join(__dirname, './https/westcoast.blue.key')),
-  cert: fs.readFileSync(path.join(__dirname, './https/westcoast.blue.pem'))
+  cert: fs.readFileSync(path.join(__dirname, './https/westcoast.blue.pem')),
 }
 
 app.use(express.static(path.join(__dirname, './public')))
@@ -70,7 +70,9 @@ function errorHandler(err: any, req: Request, res: Response, next?: NextFunction
 }
 
 // http.createServer(app).listen(8000)
-https.createServer(httpsOptions, app).listen(8000)
+process.env.NODE_ENV === 'development' ?
+    http.createServer(app).listen(8000) :
+    https.createServer(httpsOptions, app).listen(8000)
 // app.listen(8000, () => {
 //   console.log('started')
 // })

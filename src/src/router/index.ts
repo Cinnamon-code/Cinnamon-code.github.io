@@ -38,6 +38,7 @@ const routes: Array<RouteConfig> = [
 const router = new VueRouter({
   mode: 'hash',
   routes,
+  scrollBehavior: () => ({ x: 0, y: 0 }),
 })
 
 router.beforeEach((to, from, next) => {
@@ -58,7 +59,4 @@ router.beforeEach((to, from, next) => {
     })
   } else next()
 })
-
-router.afterEach(() => window.scroll(0, 0))
-
 export default router

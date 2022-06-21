@@ -36,8 +36,8 @@
       <el-row :gutter="0">
         <el-col :xl="18" :lg="17" :sm="15" :xs="24">
           <el-carousel height="450px" :interval="3000" autoplay loop indicator-position="none">
-            <el-carousel-item v-for="ca in carousel" :name="ca.name" :key="ca.id">
-              <img :src="ca.url" :alt="ca.name">
+            <el-carousel-item v-for="ca in carousel" :key="ca.id">
+              <img :src="ca.url" alt="carousel">
             </el-carousel-item>
           </el-carousel>
         </el-col>

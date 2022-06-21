@@ -1,5 +1,5 @@
 const ip = 'westcoast.blue'
 
 export default {
-  SERVER_URL: `https://${ process.env.NODE_ENV === 'development' ? 'localhost' : ip }:8000`,
+  SERVER_URL: `http${ process.env.NODE_ENV === 'development' ? '' : 's' }://${ process.env.NODE_ENV === 'development' ? 'localhost' : ip }:8000`,
 }

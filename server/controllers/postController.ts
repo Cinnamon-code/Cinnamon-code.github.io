@@ -4,6 +4,7 @@ import postService from '../services/postService'
 
 class PostController {
   async upload(req: Request, res: Response) {
+    // console.log(req)
     const status = await postService.upload(req)
     res.send({
       code: status ? 200 : 500,

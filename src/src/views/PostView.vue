@@ -32,6 +32,7 @@ import Vue from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 import config from '@/config/tinymce.config'
 import SImageUpload from '@/components/SImageUpload.vue'
+import { AxiosError } from 'axios'
 
 export default Vue.extend({
   name: 'PostView',
@@ -46,7 +47,7 @@ export default Vue.extend({
       title: '',
       content: '',
       digest: '',
-      cover: null as FormData | null,
+      cover: new FormData(),
       loading: false,
       btnText: '提交',
     }
@@ -68,6 +69,9 @@ export default Vue.extend({
           type: data.status ? 'success' : 'error', message: data.msg,
           duration: 1500, onClose() { data.status && location.reload() },
         })
+      }).catch((err: AxiosError) => {
+        this.loading = false
+        this.$message({ type: 'error', message: err.message, duration: 1500 })
       })
     },
   },

@@ -15,12 +15,13 @@ class PostService {
     return await new Promise<boolean>(resolve => {
       form.parse(req, async (err, fields, files) => {
         if (!err) {
-          const { newFilename } = files.cover as File // 解析出文件名
+          const newFilename = files.cover ? (files.cover as File).newFilename : 'default.jpg' // 解析出文件名
           const filepath = `/cover/${ newFilename }` // 得到文件路径
           const { title, digest, content } = fields // 解析出artId
 
           const article: Article = { // 构造article对象
-            title: title as string, digest: digest as string, content: content as string,
+            // 如果没有标题则无题
+            title: title === '' ? '（无题）' : title as string, digest: digest as string, content: content as string,
             coverUrl: filepath, coverId: '', likes: 0, comments: 0,
             created: new Date(), updated: new Date(), deleted: false,
           }
