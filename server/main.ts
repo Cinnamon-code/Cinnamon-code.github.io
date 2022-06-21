@@ -4,8 +4,16 @@ import path from 'path'
 import { expressjwt } from 'express-jwt'
 import md5 from 'md5'
 import cors from 'cors'
+import fs from 'fs'
+import https from 'https'
+import http from 'http'
 
 const app = express()
+
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, './https/westcoast.blue.key')),
+  cert: fs.readFileSync(path.join(__dirname, './https/westcoast.blue.pem'))
+}
 
 app.use(express.static(path.join(__dirname, './public')))
 app.use(express.json())
@@ -61,6 +69,8 @@ function errorHandler(err: any, req: Request, res: Response, next?: NextFunction
   }
 }
 
-app.listen(8000, () => {
-  console.log('started')
-})
+// http.createServer(app).listen(8000)
+https.createServer(httpsOptions, app).listen(8000)
+// app.listen(8000, () => {
+//   console.log('started')
+// })
