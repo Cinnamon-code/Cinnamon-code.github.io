@@ -69,12 +69,6 @@ export default Vue.extend({
       } else this.$message.error('只有登录才能喜欢这篇文章哦～')
     },
   },
-  watch: {
-    '$route.params': {
-      handler() { this.$forceUpdate() },
-      deep: true,
-    },
-  },
   created() {
     this.$http.get({ url: `/article/get/${ this.id }` }).then(({ data }) => {
       const { art } = data

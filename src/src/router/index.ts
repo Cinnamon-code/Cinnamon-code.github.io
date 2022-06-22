@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import { Message } from 'element-ui'
-import { request } from '@/request/'
 
 Vue.use(VueRouter)
 
@@ -43,11 +41,12 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('cinnamon-token')
+  const { $http, $message } = router.app
   if (token) { // 每次路由检查token是否过期
-    request.get({ url: '/jwt' }).then(({ data }) => {
+    $http.get({ url: '/jwt' }).then(({ data }) => {
       // 鉴权失败
       if (data.code === 401) {
-        Message({
+        $message({
           type: 'warning',
           message: '登录已过期，请重新登录。',
           duration: 1500,
