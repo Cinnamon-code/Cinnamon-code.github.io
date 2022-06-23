@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkcinnamon"]=self["webpackChunkcinnamon"]||[]).push([[863],{6863:function(e,t,n){n.r(t),n.d(t,{default:function(){return d}});var r=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"articles"},[e.$route.params._id?n("router-view",{key:e.$route.params._id}):e._e(),e.$route.params._id?e._e():n("div",[e._v("hello")])],1)},a=[],i=n(144),u=i["default"].extend({name:"ArticlesView"}),s=u,l=n(1001),c=(0,l.Z)(s,r,a,!1,null,"d656d47c",null),d=c.exports}}]);
-//# sourceMappingURL=863-legacy.cda52b17.js.map
