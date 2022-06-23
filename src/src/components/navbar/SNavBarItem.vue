@@ -3,7 +3,7 @@
     <s-link class="s-navbar-item__inner"
             :to="to"
             :style="{
-         color: this.routePath === this.to ? '#156554' : 'inherit'
+         color: this.routePath === this.to ? '#01847F' : 'inherit'
     }">
       <slot></slot>
     </s-link>

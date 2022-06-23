@@ -1,5 +1,5 @@
 <template>
-  <div class="s-card" :class="[shadow ? 'shadow': '']">
+  <div class="s-card" :class="shadow">
     <div class="s-card__header" :style="{backgroundColor: headerBackgroundColor, color: headerColor}">
       <span v-if="header">{{ header }}</span>
       <slot v-else name="header"></slot>
@@ -21,12 +21,13 @@ export default Vue.extend({
       default() { return '' },
     },
     shadow: {
-      type: Boolean,
-      default() { return false },
+      type: String,
+      default() { return 'always' },
+      validator(value: string) { return ['always', 'none', 'hover'].includes(value) },
     },
     headerBackgroundColor: {
       type: String,
-      default() { return '#002fa7'},
+      default() { return '#01847F'},
     },
     headerColor: {
       type: String,
@@ -40,18 +41,30 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
-.s-card__body {
+<style lang="scss" scoped>
+.s-card {
   border: 2px #EEEEEE solid;
-  border-top: none;
+
+  .s-card__body {
+    border-top: none;
+  }
 }
+
 
 .s-card__header {
   padding: 15px;
   font-weight: 500;
 }
 
-.shadow {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);;
+.always {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.hover {
+  transition: box-shadow .3s;
+
+  &:hover {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
 }
 </style>

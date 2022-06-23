@@ -4,15 +4,17 @@ import getters from './getters'
 import mutations from './mutations'
 import actions from './actions'
 import modules from './modules'
+import { Article } from '@/models'
 
 Vue.use(Vuex)
 
 export type State = {
-  [key: string]: any
+  articles: Partial<Article>[]
+
 }
 
 const state: State = {
-  userInfo: {},
+  articles: [] as Article[],
 }
 
 export default new Vuex.Store({

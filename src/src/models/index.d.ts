@@ -8,8 +8,8 @@ export declare type Article = {
   // tags: string[],
   likes: number,
   comments: number,
-  created: Date,
-  updated: Date,
+  created: string,
+  updated: string,
   deleted: boolean
 }
 
@@ -17,3 +17,5 @@ export declare type Carousel = {
   id: string,
   url: string,
 }
+
+export * from './index'

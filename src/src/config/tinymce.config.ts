@@ -8,5 +8,5 @@ export default {
   toolbar: `undo redo | formatpainter casechange blocks | bold italic backcolor |
             alignleft aligncenter alignright alignjustify |
             bullist numlist checklist outdent indent | removeformat | a11ycheck code table help`,
-  skin: 'oxide-dark'
+  // skin: 'oxide-dark'
 }

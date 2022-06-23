@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import actionTypes from '@/store/action-types'
 
 Vue.use(VueRouter)
 
@@ -44,13 +45,10 @@ router.beforeEach((to, from, next) => {
   const { $http, $message } = router.app
   if (token) { // 每次路由检查token是否过期
     $http.get({ url: '/jwt' }).then(({ data }) => {
-      // 鉴权失败
-      if (data.code === 401) {
+      if (data.code === 401) { // 鉴权失败
         $message({
-          type: 'warning',
-          message: '登录已过期，请重新登录。',
-          duration: 1500,
-          onClose() { next('/') },
+          type: 'warning', message: '登录已过期，请重新登录。',
+          duration: 1500, onClose() { next('/') },
         })
         localStorage.removeItem('cinnamon-token')
         localStorage.removeItem('cinnamon-info')

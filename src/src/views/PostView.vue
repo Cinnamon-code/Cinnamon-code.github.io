@@ -33,6 +33,7 @@ import Editor from '@tinymce/tinymce-vue'
 import config from '@/config/tinymce.config'
 import SImageUpload from '@/components/SImageUpload.vue'
 import { AxiosError } from 'axios'
+import actionTypes from '@/store/action-types'
 
 export default Vue.extend({
   name: 'PostView',
@@ -56,22 +57,23 @@ export default Vue.extend({
     handleChange(file: FormData) {
       this.cover = file
     },
-    async submit() {
+    submit() {
       this.loading = true
       this.cover?.set('title', this.title)
       this.cover?.set('digest', this.digest)
       this.cover?.set('content', this.content)
-      await this.$http.post({
-        url: '/post/upload', data: this.cover,
-      }).then(({ data }) => {
-        this.loading = false
-        this.$message({
-          type: data.status ? 'success' : 'error', message: data.msg,
-          duration: 1500, onClose() { data.status && location.reload() },
-        })
-      }).catch((err: AxiosError) => {
-        this.loading = false
-        this.$message({ type: 'error', message: err.message, duration: 1500 })
+      this.$store.dispatch(actionTypes.POST, {
+        $http: this.$http,
+        $message: this.$message,
+        cover: this.cover,
+        callback: (status: boolean) => {
+          this.loading = false
+          if (status) {
+            this.title = this.content = this.digest = ''
+            this.cover = new FormData()
+            window.scroll({ top: 0, behavior: 'smooth' })
+          }
+        },
       })
     },
   },
@@ -79,23 +81,9 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .digest {
   margin-top: 60px;
-}
-
-.el-input__inner, .el-textarea__inner {
-  border: 2px #EEEEEE solid;
-  border-radius: 0;
-  font-size: 18px;
-}
-
-.el-textarea__inner {
-  padding: 12px 15px;
-}
-
-.el-input__inner:focus, .el-textarea__inner:focus {
-  border: #232F3E 2px solid;
 }
 
 .select-cover {
@@ -107,7 +95,6 @@ export default Vue.extend({
   margin-top: 60px;
   width: 100%;
   height: 3em;
-  border-radius: 0;
   font-size: 18px;
 }
 </style>

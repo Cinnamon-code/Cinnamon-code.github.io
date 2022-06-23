@@ -5,26 +5,20 @@
     </div>
     <h1 class="title" @click="$router.push('/articles')">Articles</h1>
     <div class="arts">
-      <div class="arts-inner" v-if="latestArticles.length !== 0">
-        <el-row :gutter="30"
-                v-for="i in Math.ceil(latestArticles.length / blocks)" :key="i">
-          <el-col :span="24 / blocks"
-                  v-for="la in latestArticles.slice((i - 1) * blocks, i * blocks)" :key="la._id">
-            <el-card :body-style="{ padding: 0 }" shadow="hover">
-              <div class="art-img">
-                <img :src="la.coverUrl" alt="image">
-              </div>
-              <s-link :to="`/articles/${la._id}`">
-                <h3>{{ la.title }}</h3>
-                <p>{{ la.digest || '' }}</p>
-              </s-link>
-              <div class="like-comment">
-                <span>{{ la.likes }} <span>like</span></span>
-                <span>{{ la.comments }} <span>comments</span></span>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
+      <div class="arts-inner" v-if="latestArticles.length !== 0" :style="{ gridTemplateColumns: `repeat(${blocks}, 1fr)`}">
+        <el-card v-for="la in latestArticles" :body-style="{ padding: 0 }" shadow="hover" :key="la._id">
+          <div class="art-img">
+            <img :src="la.coverUrl" alt="image">
+          </div>
+          <s-link :to="`/articles/${la._id}`">
+            <h3>{{ la.title }}</h3>
+            <p>{{ la.digest || '' }}</p>
+          </s-link>
+          <div class="like-comment">
+            <span>{{ la.likes }} <span>like</span></span>
+            <span>{{ la.comments }} <span>comments</span></span>
+          </div>
+        </el-card>
       </div>
       <el-empty v-else description="还没有文章发布哦，催一下博主吧～"></el-empty>
     </div>
@@ -57,14 +51,13 @@ import Vue from 'vue'
 import SLink from '@/components/SLink.vue'
 import Life from '@/assets/life.md'
 import SHomeForm from '@/components/homeView/SHomeForm.vue'
-import { Article, Carousel } from '../../types/models'
-import serverConfig from '@/config/server.config'
+import { Article, Carousel } from '@/models'
+import ActionTypes from '@/store/action-types'
 
 export default Vue.extend({
   name: 'HomeView',
   data() {
     return {
-      latestArticles: [] as Article[],
       carousel: [] as Carousel[],
       isLogin: 0, // 0 login, 1 register, 2 has logged in
       bodyWidth: 0,
@@ -75,24 +68,21 @@ export default Vue.extend({
     blocks(): number {
       return this.bodyWidth <= 768 ? 2 : 4
     },
+    latestArticles(): Partial<Article>[] {
+      return this.$store.getters.latestArticles
+    },
   },
   components: { SHomeForm, SLink, Life },
   created() {
-    this.$http.get({ url: '/article/get_latest' }).then(({ data }) => {
-      this.latestArticles = data.articles.filter((v: Partial<Article>) => !v.deleted)
-          .map((v: Partial<Article>): Partial<Article> => ({
-            ...v,
-            title: v.title!.length > 8 ? `${ v.title!.substring(0, 8) }...` : v.title,
-            digest: v.digest!.length > 35 ? `${ v.digest!.substring(0, 35) }...` : v.digest,
-            coverUrl: `${ serverConfig.SERVER_URL }${ v.coverUrl }`,
-          }))
-    })
+    if (this.$store.state.articles.length === 0)
+      this.$store.dispatch(ActionTypes.GET_ALL_ARTICLES, this.$http)
     this.carousel = [{ id: '12345', url: require('@/assets/home_bg.png') }]
   },
   mounted() {
     this.bodyWidth = document.body.clientWidth
     window.onresize = () => this.bodyWidth = document.body.clientWidth
   },
+  destroyed() { window.onresize = null },
 })
 </script>
 
@@ -110,8 +100,9 @@ export default Vue.extend({
 }
 
 .arts {
-  .el-row:first-child {
-    margin-bottom: 30px;
+  .arts-inner {
+    display: grid;
+    grid-gap: 30px;
   }
 
   .el-card {

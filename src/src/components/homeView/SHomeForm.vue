@@ -18,27 +18,29 @@
       </el-form-item>
     </el-form>
     <div v-if="isLogin !== 2" class="op-btn">
-      <el-button v-if="isLogin === 0" type="primary" plain class="btn main-btn" @click="login">登录</el-button>
-      <el-button v-else type="primary" plain class="btn main-btn" @click="register">注册</el-button>
-      <el-button type="danger" plain @click="reset" class="btn other-btn">重置</el-button>
-      <el-button v-if="isLogin === 0" plain @click="switchCard" class="btn other-btn">去注册</el-button>
-      <el-button v-else plain @click="switchCard" class="btn other-btn">去登录</el-button>
+      <s-button v-if="isLogin === 0" type="success" plain class="btn main-btn" @click="login">登录</s-button>
+      <s-button v-else type="success" plain class="btn main-btn" @click="register">注册</s-button>
+      <s-button type="danger" plain @click="reset" class="btn other-btn">重置</s-button>
+      <s-button v-if="isLogin === 0" type="warning" plain @click="switchCard" class="btn other-btn">去注册</s-button>
+      <s-button v-else type="warning" plain @click="switchCard" class="btn other-btn">去登录</s-button>
     </div>
     <div v-if="isLogin === 2" class="welcome">
       <h1>你好</h1>
       <h3>{{ username }}</h3>
-      <el-button type="danger" plain @click="logout" class="btn">退出登录</el-button>
+      <s-button type="danger" plain @click="logout" class="btn">退出登录</s-button>
     </div>
   </el-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import md5 from 'md5'
-import { Form, FormItem } from 'element-ui'
+import { Form } from 'element-ui'
+import actionTypes from '@/store/action-types'
+import SButton from '@/components/SButton.vue'
 
 export default Vue.extend({
   name: 'SHomeForm',
+  components: { SButton },
   data() {
     const checkUsername = (_: never, value: string, callback: (err?: Error) => void) => {
       this.$http.post({
@@ -57,7 +59,7 @@ export default Vue.extend({
     }
 
     return {
-      loginModel: { username: '', password: '', captcha: '' },
+      loginModel: { username: '', password: '' },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
         password: [{ required: true, trigger: 'blur' }],
@@ -85,51 +87,26 @@ export default Vue.extend({
     reset() { (this.$refs.form as Form).resetFields() },
     login() {
       (this.$refs.form as Form).validate(valid => {
-        if (valid) {
-          this.$http.post({
-            url: '/user/login',
-            data: { ...this.loginModel, password: md5(md5(md5(this.loginModel.password))) },
-          }).then(({ data }) => {
-            if (data.status) { // 登录成功
-              // userInfo { username: string, email: string, root: boolean, isLogin: boolean }
-              const userInfo = { ...data.userInfo, isLogin: true }
-              localStorage.setItem('cinnamon-token', data.token)
-              localStorage.setItem('cinnamon-info', JSON.stringify(userInfo)) // 将用户信息保存
-            } else (this.$refs.pwdInput as FormItem).resetField() // 登录失败
-            this.$message({
-              type: data.status ? 'success' : 'error', message: data.msg,
-              onClose() { data.status && location.reload() }, duration: 1500,
-            })
-          })
-        }
+        if (valid) this.$store.dispatch(actionTypes.LOGIN, {
+          ...this.loginModel,
+          $http: this.$http,
+          $message: this.$message,
+          pwdInput: this.$refs.pwdInput,
+        })
       })
     },
     register() {
       (this.$refs.form as Form).validate(valid => {
-        if (valid) {
-          this.$http.post({
-            url: '/user/register',
-            data: { ...this.registerModel, password: md5(md5(md5(this.registerModel.password))) },
-          }).then(({ data }) => {
-            this.$message({ type: data.status ? 'success' : 'error', message: data.msg, duration: 1500 })
-            if (data.status) {
-              this.switchCard()
-              this.reset()
-            }
-          })
-        }
+        if (valid) this.$store.dispatch(actionTypes.REGISTER, {
+          ...this.registerModel,
+          $http: this.$http,
+          $message: this.$message,
+          switchCard: this.switchCard,
+          reset: this.reset,
+        })
       })
     },
-    logout() {
-      location.reload()
-      localStorage.removeItem('cinnamon-token')
-      localStorage.removeItem('cinnamon-info')
-      setTimeout(() => this.$emit('logout'), 500)
-    },
-    inputBorderRadius() {
-      const inputs = document.querySelectorAll('.el-input__inner')
-      inputs.forEach((elem: Element) => (elem as HTMLInputElement).style.borderRadius = '0')
-    },
+    logout() { this.$store.dispatch(actionTypes.LOGOUT, this.$emit) },
   },
   computed: {
     models(): any { return this.isLogin === 0 ? this.loginModel : this.registerModel },
@@ -144,10 +121,7 @@ export default Vue.extend({
     isLogin() { // 切换时清空输入框和验证
       const form: Form = this.$refs.form as Form
       form.resetFields()
-      this.$nextTick(() => {
-        form.clearValidate()
-        this.inputBorderRadius()
-      })
+      this.$nextTick(() => form.clearValidate())
     },
   },
   created() {
@@ -156,10 +130,6 @@ export default Vue.extend({
     if (!userInfo) return
     if (userInfo.isLogin) this.$emit('login')
   },
-  mounted() {
-    // 修改输入框样式
-    this.inputBorderRadius()
-  },
 })
 </script>
 
@@ -167,12 +137,6 @@ export default Vue.extend({
 .el-card {
   position: relative;
   height: 449px;
-  border-radius: 0;
-
-  .header {
-    font-weight: 500;
-    color: #156554;
-  }
 }
 
 .op-btn {
@@ -202,17 +166,9 @@ export default Vue.extend({
   justify-items: center;
   padding-top: 50px;
 
-  .el-button {
+  .s-button {
     width: 80%;
     margin-top: 30px;
   }
-}
-
-.btn {
-  border-radius: 0;
-}
-
-.el-input__inner {
-  border-radius: 0;
 }
 </style>

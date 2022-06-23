@@ -17,7 +17,7 @@ Vue.use(ElementUI)
 Vue.use(Request)
 
 new Vue({
-  router,
   store,
+  router,
   render: h => h(App),
 }).$mount('#app')

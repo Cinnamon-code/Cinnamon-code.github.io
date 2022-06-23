@@ -11,9 +11,9 @@
     </s-nav-bar>
     <!--    router-view-->
     <!--    <transition name="fade">-->
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <!--    <keep-alive>-->
+    <router-view></router-view>
+    <!--    </keep-alive>-->
     <!--    </transition>-->
     <!--    footer-->
     <footer class="footer">
@@ -44,9 +44,7 @@ export default Vue.extend({
   name: 'App',
   components: { SNavBarItem, SNavBar },
   data() {
-    return {
-      links: [] as Link[],
-    }
+    return { links: [] as Link[] }
   },
   created() {
     this.links = [
@@ -58,24 +56,10 @@ export default Vue.extend({
     ]
     // this.checkJwt()
   },
-  methods: {
-    checkJwt() {
-      // 每次刷新检查token是否过期
-      this.$http.get({ url: '/jwt' }).then(({ data }) => {
-        if (data.code === 401) { // 鉴权失败
-          localStorage.removeItem('cinnamon-token')
-          localStorage.removeItem('cinnamon-info')
-        }
-      })
-    },
-  },
   computed: {
     realLinks(): Link[] {
-      const userInfoStr = localStorage.getItem('cinnamon-info')
-      if (userInfoStr) {
-        const userInfo = JSON.parse(userInfoStr)
-        if (userInfo.root) return this.links
-      }
+      const userInfo = JSON.parse(localStorage.getItem('cinnamon-info') as string)
+      if (userInfo && userInfo.root) return this.links
       return this.links.slice(0, this.links.length - 1)
     },
   },
@@ -151,8 +135,74 @@ body {
     transition: color .3s;
 
     &:hover {
-      color: #156554;
+      color: #01847F;
     }
   }
+}
+
+// 强行更改全局样式
+.el-input__inner, .el-textarea__inner {
+  border: 2px #EEEEEE solid !important;
+  border-radius: 0 !important;
+}
+
+//.el-input__inner {
+//  border-left: none !important;
+//}
+
+.el-input-group__prepend {
+  border: 2px solid #EEEEEE !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+  //background-color: #156554 !important;
+
+  i::before {
+    //color: #fff;
+    font-weight: bolder;
+    //font-size: 16px;
+  }
+}
+
+.el-textarea__inner {
+  padding: 12px 15px !important;
+}
+
+.el-input__inner:focus, .el-textarea__inner:focus {
+  border: #01847F 2px solid !important;
+}
+
+//.el-input__inner:focus {
+//  border-left: none !important;
+//}
+
+.el-button, .tox {
+  border-radius: 0 !important;
+}
+
+.el-card {
+  border-radius: 0 !important;
+
+  .el-card__header {
+    padding: 1em 20px !important;
+    background-color: #01847F !important;
+    //border: 2px #01847F solid !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+  }
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled) {
+  &.active {
+    color: #fff !important;
+    background-color: #01847F !important;
+  }
+
+  &:not(.active):hover {
+    color: #01847F !important;
+  }
+}
+
+.el-select-dropdown__item.selected {
+  color: #01847F !important;
 }
 </style>

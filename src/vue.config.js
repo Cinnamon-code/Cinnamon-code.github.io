@@ -8,8 +8,6 @@ module.exports = {
       .end()
       .use("vue-markdown-loader")
       .loader("vue-markdown-loader/lib/markdown-compiler")
-      .options({
-        raw: true
-      })
+      .options({raw: true})
   }
 }

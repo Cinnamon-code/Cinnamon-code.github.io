@@ -1,6 +1,6 @@
 <template>
   <div class="s-link" :style="linkStyle">
-    <a href="#" @click="handleClick" :class="[hoverBlue ? 'blue' : 'green']">
+    <a href="#" @click="handleClick" :class="[hover ? hoverBlue ? 'blue' : 'green' : '']">
       <slot></slot>
     </a>
   </div>
@@ -28,6 +28,10 @@ export default Vue.extend({
         return {}
       },
     },
+    hover: {
+      type: Boolean,
+      default() { return true },
+    },
     hoverBlue: {
       type: Boolean,
       default() { return false },
@@ -44,7 +48,7 @@ export default Vue.extend({
 }
 
 .green:hover {
-  color: #156554;
+  color: #01847F;
 }
 
 .blue:hover {
