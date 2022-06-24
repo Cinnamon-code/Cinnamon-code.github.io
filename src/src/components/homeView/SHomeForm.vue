@@ -18,11 +18,11 @@
       </el-form-item>
     </el-form>
     <div v-if="isLogin !== 2" class="op-btn">
-      <s-button v-if="isLogin === 0" type="success" plain class="btn main-btn" @click="login">登录</s-button>
-      <s-button v-else type="success" plain class="btn main-btn" @click="register">注册</s-button>
-      <s-button type="danger" plain @click="reset" class="btn other-btn">重置</s-button>
-      <s-button v-if="isLogin === 0" type="warning" plain @click="switchCard" class="btn other-btn">去注册</s-button>
-      <s-button v-else type="warning" plain @click="switchCard" class="btn other-btn">去登录</s-button>
+      <s-button v-if="isLogin === 0" type="success" plain class="btn" @click="login">登录</s-button>
+      <s-button v-else type="success" plain class="btn" @click="register">注册</s-button>
+      <s-button type="danger" plain @click="reset" class="btn">重置</s-button>
+      <s-button v-if="isLogin === 0" type="warning" plain @click="switchCard" class="btn">去注册</s-button>
+      <s-button v-else type="warning" plain @click="switchCard" class="btn">去登录</s-button>
     </div>
     <div v-if="isLogin === 2" class="welcome">
       <h1>你好</h1>
@@ -109,8 +109,8 @@ export default Vue.extend({
     logout() { this.$store.dispatch(actionTypes.LOGOUT, this.$emit) },
   },
   computed: {
-    models(): any { return this.isLogin === 0 ? this.loginModel : this.registerModel },
-    rules(): any {return this.isLogin === 0 ? this.loginRules : this.registerRules},
+    models(): object { return this.isLogin === 0 ? this.loginModel : this.registerModel },
+    rules(): object {return this.isLogin === 0 ? this.loginRules : this.registerRules},
     username(): string {
       const userInfo = localStorage.getItem('cinnamon-info')
       if (userInfo) return JSON.parse(userInfo).username
@@ -146,16 +146,21 @@ export default Vue.extend({
   bottom: 0;
   display: flex;
   align-items: center;
-  justify-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-wrap: nowrap;
   padding: 0 35px 25px;
 
-  .main-btn {
-    flex: 2;
-  }
-
-  .other-btn {
+  .btn {
+    margin-right: 10px;
     flex: 1;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:first-child {
+      flex: 2;
+    }
   }
 }
 

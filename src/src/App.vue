@@ -89,6 +89,7 @@ body {
 
 #app {
   padding: 140px 80px 0;
+  //background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
 }
 
 //.fade-enter, .fade-leave-to {

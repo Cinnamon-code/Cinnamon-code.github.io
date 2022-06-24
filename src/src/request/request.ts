@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 
 class Request {
   private _instance: AxiosInstance
@@ -7,8 +7,8 @@ class Request {
     this._instance = axios.create(axiosConfig)
     this._instance.interceptors.request.use(config => {
       const token = localStorage.getItem('cinnamon-token') ?? ''
-      if (token.startsWith('Bearer ')) config.headers!['Authorization'] = token
-      else config.headers!['Authorization'] = `Bearer ${ token }`
+      if (token.startsWith('Bearer ')) (config.headers as AxiosRequestHeaders)['Authorization'] = token
+      else (config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${ token }`
       return config
     }, error => Promise.reject(error))
     this._instance.interceptors.response.use(response => {

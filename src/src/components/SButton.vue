@@ -1,5 +1,6 @@
 <template>
-  <button class="s-button" type="button" :class="[type, plain ? 'plain' : 'not-plain']" v-on="$listeners">
+  <button class="s-button" type="button" :class="[type, plain ? 'plain' : 'not-plain']"
+          v-on="$listeners" v-bind="$attrs">
     <slot></slot>
   </button>
 </template>

@@ -23,7 +23,8 @@
       <h1>选个封面</h1>
       <s-image-upload @change="handleChange"></s-image-upload>
     </div>
-    <el-button type="primary" plain :loading="loading" class="submit-btn" @click="submit">{{ btnText }}</el-button>
+    <!--    <el-button type="primary" plain :loading="loading" class="submit-btn" @click="submit">{{ btnText }}</el-button>-->
+    <s-button type="success" plain :disabled="disabled" class="submit-btn" @click="submit">{{ btnText }}</s-button>
   </div>
 </template>
 
@@ -32,8 +33,8 @@ import Vue from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 import config from '@/config/tinymce.config'
 import SImageUpload from '@/components/SImageUpload.vue'
-import { AxiosError } from 'axios'
 import actionTypes from '@/store/action-types'
+import SButton from '@/components/SButton.vue'
 
 export default Vue.extend({
   name: 'PostView',
@@ -49,8 +50,8 @@ export default Vue.extend({
       content: '',
       digest: '',
       cover: new FormData(),
-      loading: false,
       btnText: '提交',
+      disabled: false
     }
   },
   methods: {
@@ -58,7 +59,8 @@ export default Vue.extend({
       this.cover = file
     },
     submit() {
-      this.loading = true
+      this.btnText = '提交中...'
+      this.disabled = true
       this.cover?.set('title', this.title)
       this.cover?.set('digest', this.digest)
       this.cover?.set('content', this.content)
@@ -67,7 +69,7 @@ export default Vue.extend({
         $message: this.$message,
         cover: this.cover,
         callback: (status: boolean) => {
-          this.loading = false
+          this.disabled = false
           if (status) {
             this.title = this.content = this.digest = ''
             this.cover = new FormData()
@@ -77,7 +79,7 @@ export default Vue.extend({
       })
     },
   },
-  components: { SImageUpload, Editor },
+  components: { SButton, SImageUpload, Editor },
 })
 </script>
 

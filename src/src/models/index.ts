@@ -1,8 +1,8 @@
-export declare type Article = {
-  _id?: string | ObjectId
+export  type Article = {
+  _id: string
   title: string,
   coverUrl: string,
-  coverId: string | ObjectId,
+  coverId: string,
   digest: string,
   content: string,
   // tags: string[],
@@ -13,9 +13,7 @@ export declare type Article = {
   deleted: boolean
 }
 
-export declare type Carousel = {
+export type Carousel = {
   id: string,
   url: string,
 }
-
-export * from './index'

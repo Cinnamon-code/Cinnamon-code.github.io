@@ -36,7 +36,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Article } from '@/models'
-import SCard from '@/components/SCard.vue'
 import SLink from '@/components/SLink.vue'
 import actionTypes from '@/store/action-types'
 import SButton from '@/components/SButton.vue'

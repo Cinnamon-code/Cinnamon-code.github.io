@@ -64,7 +64,7 @@ export default Vue.extend({
     transition: border-color .3s;
 
     &:hover {
-      border-color: #156554;
+      border-color: #01847f;
     }
 
     .upload-icon {

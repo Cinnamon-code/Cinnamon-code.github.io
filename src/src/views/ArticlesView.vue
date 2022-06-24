@@ -73,18 +73,19 @@ export default Vue.extend({
     sortedArticles(): Partial<Article>[] {
       const articles = [...this.filteredArticles]
       return (this.selected === 'timeDown' ? articles :
-          articles.sort((art1: Partial<Article>, art2: Partial<Article>) => {
+          articles.sort((a, b) => {
+            const art1 = a as Article, art2 = b as Article
             switch (this.selected) {
               case 'timeUp':
-                return +new Date(art1.updated!) - +new Date(art2.updated!)
+                return +new Date(art1.updated) - +new Date(art2.updated)
               case 'likeDown':
-                return art2.likes! - art1.likes!
+                return art2.likes - art1.likes
               case 'likeUp':
-                return art1.likes! - art2.likes!
+                return art1.likes - art2.likes
               case 'commentsDown':
-                return art2.comments! - art1.comments!
+                return art2.comments - art1.comments
               case 'commentsUp':
-                return art1.comments! - art2.comments!
+                return art1.comments - art2.comments
             }
             return 0
           }))

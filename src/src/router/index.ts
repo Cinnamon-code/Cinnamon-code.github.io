@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import actionTypes from '@/store/action-types'
 
 Vue.use(VueRouter)
 

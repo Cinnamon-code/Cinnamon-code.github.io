@@ -21,7 +21,7 @@ export function transColor(color: string, shallow = true): string {
 }
 
 function HtoD(hexNum: string): number {
-  const map: any = {
+  const map: { [key: string]: number } = {
     A: 10, a: 10, B: 11, b: 11,
     C: 12, c: 12, D: 13, d: 13,
     E: 14, e: 14, F: 15, f: 15,
@@ -33,7 +33,7 @@ function HtoD(hexNum: string): number {
 }
 
 function DtoH(decNum: number): string {
-  const map: any = {
+  const map: { [key: string]: string } = {
     10: 'A', 11: 'B', 12: 'C',
     13: 'D', 14: 'E', 15: 'F',
   }

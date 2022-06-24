@@ -12,13 +12,13 @@ export default {
   // 获取所有文章，并commit
   async [actionTypes.GET_ALL_ARTICLES]({ commit }: ActionContext<State, State>, $http: payloadTypes.GET_ALL_ARTICLES) {
     const articles = await $http.get({ url: '/article/get_all' }).then(({ data }) =>
-        data.articles
-            .filter((v: Partial<Article>) => !v.deleted)
+        (data.articles as Article[])
+            .filter(v => !v.deleted)
             // 默认排序
-            .sort((a: Article, b: Article) => +new Date(b.updated) - +new Date(a.updated))
-            .map((v: Partial<Article>): Partial<Article> => ({
+            .sort((a, b) => +new Date(b.updated) - +new Date(a.updated))
+            .map(v => ({
               ...v, coverUrl: `${ serverConfig.SERVER_URL }${ v.coverUrl }`,
-              updated: formatDate(v.updated!), created: formatDate(v.created!),
+              updated: formatDate(v.updated), created: formatDate(v.created),
             })))
     commit(mutationTypes.GOT_ALL_ARTICLES, articles)
   },
@@ -73,7 +73,7 @@ export default {
       }).then(({ data }) => {
         callback(data.status)
         state.articles.forEach(art => {
-          if (art._id === artId) art.likes! += data.status ? 1 : -1
+          if (art._id === artId) (art as Article).likes += data.status ? 1 : -1
         })
       })
     } else $message.error('只有登录才能喜欢这篇文章哦～')
